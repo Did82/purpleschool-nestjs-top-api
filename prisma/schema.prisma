@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Product {
+  id              String                  @id @default(auto()) @map("_id") @db.ObjectId
+  image           String
+  title           String
+  link            String
+  initialRating   Int
+  price           Int
+  oldPrice        Int?
+  credit          Int
+  description     String
+  advantages      String
+  disAdvantages   String?
+  categories      String[]
+  tags            String[]
+  characteristics ProductCharacteristic[]
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  Review          Review[]
+}
+
+type ProductCharacteristic {
+  name  String
+  value String
+}
+
+model Review {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  title       String
+  description String
+  rating      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   String   @db.ObjectId
+}
+
+model TopPage {
+  id              String             @id @default(auto()) @map("_id") @db.ObjectId
+  firstCategory   TopLevelCategory
+  secondCategory  String
+  alias           String             @unique
+  title           String
+  metaTitle       String
+  metaDescription String
+  category        String
+  hh              HhData?
+  advantages      TopPageAdvantage[]
+  seoText         String?
+  tagsTitle       String
+  tags            String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TopLevelCategory {
+  Courses
+  Services
+  Books
+  Products
+}
+
+type HhData {
+  count        Int
+  juniorSalary Int
+  middleSalary Int
+  seniorSalary Int
+  updatedAt    DateTime
+}
+
+type TopPageAdvantage {
+  title       String
+  description String
+}

@@ -8,12 +8,13 @@ import {
 	Patch,
 	Post,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { FindProductDto } from './dto/find-product.dto';
 
 @Controller('product')
 export class ProductController {
 	@Post('create')
-	async create(@Body() dto: CreateProductDto) {
+	async create(@Body() dto: Prisma.ProductCreateInput) {
 		return 'create';
 	}
 
@@ -28,7 +29,10 @@ export class ProductController {
 	}
 
 	@Patch(':id')
-	async patch(@Param('id') id: string, @Body() dto: UpdateProductDto) {
+	async patch(
+		@Param('id') id: string,
+		@Body() dto: Prisma.ProductUpdateInput,
+	) {
 		return 'patch';
 	}
 

@@ -8,12 +8,13 @@ import {
 	Patch,
 	Post,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { FindTopPageDto } from './dto/find-top-page.dto';
 
 @Controller('top-page')
 export class TopPageController {
 	@Post('create')
-	async create(@Body() dto: CreateTopPageDto) {
+	async create(@Body() dto: Prisma.TopPageCreateInput) {
 		return 'create';
 	}
 
@@ -28,7 +29,10 @@ export class TopPageController {
 	}
 
 	@Patch(':id')
-	async patch(@Param('id') id: string, @Body() dto: CreateTopPageDto) {
+	async patch(
+		@Param('id') id: string,
+		@Body() dto: Prisma.TopPageUpdateInput,
+	) {
 		return 'patch';
 	}
 
