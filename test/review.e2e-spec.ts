@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { ObjectId } from 'bson';
@@ -26,10 +26,11 @@ describe('AppController (e2e)', () => {
 		}).compile();
 
 		app = moduleFixture.createNestApplication();
+		app.useGlobalPipes(new ValidationPipe());
 		await app.init();
 	});
 
-	it('/review/create (POST)', async () => {
+	it('/review/create (POST) - success', async () => {
 		return request(app.getHttpServer())
 			.post('/review/create')
 			.send(testReview)
@@ -38,6 +39,20 @@ describe('AppController (e2e)', () => {
 				createdId = res.body.id;
 				expect(createdId).toBeDefined();
 				expect(res.body).toEqual(expect.objectContaining(testReview));
+			});
+	});
+
+	it('/review/create (POST) - fail', async () => {
+		return request(app.getHttpServer())
+			.post('/review/create')
+			.send({
+				...testReview,
+				rating: 6,
+			})
+			.expect(400, {
+				statusCode: 400,
+				message: ['rating must not be greater than 5'],
+				error: 'Bad Request',
 			});
 	});
 

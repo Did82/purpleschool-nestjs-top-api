@@ -1,20 +1,32 @@
+import {
+	IsString,
+	IsNotEmpty,
+	IsInt,
+	Min,
+	Max,
+	IsMongoId,
+} from 'class-validator';
+
 export class CreateReviewDto {
-	// @IsString()
-	// @IsNotEmpty()
+	@IsString()
+	@IsNotEmpty()
 	name: string;
 
-	// @IsString()
-	// @IsNotEmpty()
+	@IsString()
+	@IsNotEmpty()
 	title: string;
 
-	// @IsString()
-	// @IsNotEmpty()
+	@IsString()
+	@IsNotEmpty()
 	description: string;
 
-	// @IsNumber()
+	@Max(5)
+	@Min(1)
+	@IsInt()
 	rating: number;
 
-	// @IsString()
-	// @IsNotEmpty()
+	@IsMongoId()
+	@IsString()
+	@IsNotEmpty()
 	productId: string;
 }
