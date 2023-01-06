@@ -21,8 +21,9 @@ export class ReviewController {
 
 	@Delete(':id')
 	async delete(@Param('id') id: string) {
-		const deletedReview = await this.reviewService.delete(id);
-		if (!deletedReview) {
+		try {
+			await this.reviewService.delete(id);
+		} catch (e) {
 			throw new NotFoundException('Review not found');
 		}
 	}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Review } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 
 @Injectable()

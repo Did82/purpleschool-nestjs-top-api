@@ -6,7 +6,7 @@ import { TopPageModule } from './top-page/top-page.module';
 import { ProductModule } from './product/product.module';
 import { ReviewModule } from './review/review.module';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaService } from './prisma/prisma.service';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
 	imports: [
@@ -15,8 +15,9 @@ import { PrismaService } from './prisma/prisma.service';
 		TopPageModule,
 		ProductModule,
 		ReviewModule,
+		PrismaModule,
 	],
 	controllers: [AppController],
-	providers: [AppService, PrismaService],
+	providers: [AppService],
 })
 export class AppModule {}
