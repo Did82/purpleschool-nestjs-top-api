@@ -8,6 +8,11 @@ import { CreateReviewDto } from 'src/review/dto/create-review.dto';
 const productId = new ObjectId().toHexString();
 const fakeId = new ObjectId().toHexString();
 
+const testUser = {
+	email: 'met9129@gmail.com',
+	password: '118649qwe',
+};
+
 const testReview: CreateReviewDto = {
 	productId: productId,
 	name: 'Test review',
@@ -19,6 +24,7 @@ const testReview: CreateReviewDto = {
 describe('AppController (e2e)', () => {
 	let app: INestApplication;
 	let createdId: string;
+	let token: string;
 
 	beforeEach(async () => {
 		const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -28,6 +34,11 @@ describe('AppController (e2e)', () => {
 		app = moduleFixture.createNestApplication();
 		app.useGlobalPipes(new ValidationPipe());
 		await app.init();
+
+		const res = await request(app.getHttpServer())
+			.post('/auth/login')
+			.send(testUser);
+		token = res.body.access_token;
 	});
 
 	it('/review/create (POST) - success', async () => {
@@ -80,6 +91,7 @@ describe('AppController (e2e)', () => {
 	it('/review/:id (DELETE) - fakeId', async () => {
 		return request(app.getHttpServer())
 			.delete(`/review/${fakeId}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(404, {
 				statusCode: 404,
 				message: 'Review not found',
@@ -90,6 +102,7 @@ describe('AppController (e2e)', () => {
 	it('/review/:id (DELETE)', async () => {
 		return request(app.getHttpServer())
 			.delete(`/review/${createdId}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(200);
 	});
 });
