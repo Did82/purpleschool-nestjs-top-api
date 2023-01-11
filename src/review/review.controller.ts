@@ -8,6 +8,7 @@ import {
 	Post,
 	UseGuards,
 } from '@nestjs/common';
+import { IdValidation, ProductIdValidation } from '../validation/id-validation';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
@@ -23,16 +24,16 @@ export class ReviewController {
 
 	@UseGuards(JwtAuthGuard)
 	@Delete(':id')
-	async delete(@Param('id') id: string) {
+	async delete(@Param() params: IdValidation) {
 		try {
-			await this.reviewService.delete(id);
+			await this.reviewService.delete(params.id);
 		} catch (e) {
 			throw new NotFoundException('Review not found');
 		}
 	}
 
 	@Get('byProduct/:productId')
-	async getByProduct(@Param('productId') productId: string) {
-		return this.reviewService.findByProductId(productId);
+	async getByProduct(@Param() params: ProductIdValidation) {
+		return this.reviewService.findByProductId(params.productId);
 	}
 }

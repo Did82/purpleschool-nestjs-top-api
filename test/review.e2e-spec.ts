@@ -7,6 +7,7 @@ import { CreateReviewDto } from 'src/review/dto/create-review.dto';
 
 const productId = new ObjectId().toHexString();
 const fakeId = new ObjectId().toHexString();
+const wrongId = 'wrongId';
 
 const testUser = {
 	email: 'met9129@gmail.com',
@@ -21,7 +22,7 @@ const testReview: CreateReviewDto = {
 	rating: 5,
 };
 
-describe('AppController (e2e)', () => {
+describe('ReviewController (e2e)', () => {
 	let app: INestApplication;
 	let createdId: string;
 	let token: string;
@@ -85,6 +86,16 @@ describe('AppController (e2e)', () => {
 			.expect(200)
 			.then((res) => {
 				expect(res.body.length).toBe(0);
+			});
+	});
+
+	it('/review/byProduct/:productId (GET) - wrongId', async () => {
+		return request(app.getHttpServer())
+			.get(`/review/byProduct/${wrongId}`)
+			.expect(400, {
+				statusCode: 400,
+				message: ['productId must be a mongodb id'],
+				error: 'Bad Request',
 			});
 	});
 
