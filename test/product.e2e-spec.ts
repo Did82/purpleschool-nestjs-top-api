@@ -60,6 +60,7 @@ describe('ProductController (e2e)', () => {
 	it('/product/create (POST) - success', async () => {
 		return request(app.getHttpServer())
 			.post('/product/create')
+			.set('Authorization', `Bearer ${token}`)
 			.send(testProduct)
 			.expect(201)
 			.then((res) => {
@@ -72,6 +73,7 @@ describe('ProductController (e2e)', () => {
 	it('/product/create (POST) - fail', async () => {
 		return request(app.getHttpServer())
 			.post('/product/create')
+			.set('Authorization', `Bearer ${token}`)
 			.send({
 				...testProduct,
 				price: 'wrong price',
@@ -82,6 +84,7 @@ describe('ProductController (e2e)', () => {
 	it('/product/:id (GET) - success', async () => {
 		return request(app.getHttpServer())
 			.get(`/product/${createdId}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(200)
 			.then((res) => {
 				expect(res.body).toEqual(expect.objectContaining(testProduct));
@@ -91,6 +94,7 @@ describe('ProductController (e2e)', () => {
 	it('/product/:id (GET) - fail', async () => {
 		return request(app.getHttpServer())
 			.get(`/product/${fakeId}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(404);
 	});
 

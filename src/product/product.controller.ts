@@ -8,7 +8,9 @@ import {
 	Param,
 	Patch,
 	Post,
+	UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { IdValidation } from '../validation/id-validation';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FindProductDto } from './dto/find-product.dto';
@@ -18,11 +20,13 @@ import { ProductService } from './product.service';
 export class ProductController {
 	constructor(private readonly productService: ProductService) {}
 
+	@UseGuards(JwtAuthGuard)
 	@Post('create')
 	async create(@Body() dto: CreateProductDto) {
 		return await this.productService.create(dto);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get(':id')
 	async get(@Param() params: IdValidation) {
 		const product = await this.productService.findById(params.id);
@@ -32,6 +36,7 @@ export class ProductController {
 		return product;
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Delete(':id')
 	async delete(@Param() params: IdValidation) {
 		try {
@@ -41,6 +46,7 @@ export class ProductController {
 		}
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Patch(':id')
 	async patch(@Param() params: IdValidation, @Body() dto: CreateProductDto) {
 		try {

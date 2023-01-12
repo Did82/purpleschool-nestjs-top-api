@@ -78,10 +78,14 @@ export class ProductService {
 				},
 			},
 			include: {
-				reviews: true,
+				reviews: {
+					orderBy: {
+						createdAt: 'asc',
+					},
+				},
 			},
 			orderBy: {
-				id: 'desc',
+				id: 'asc',
 			},
 			take: dto.limit,
 		});
