@@ -7,6 +7,7 @@ import { ProductModule } from './product/product.module';
 import { ReviewModule } from './review/review.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
 	imports: [
@@ -18,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
 		ProductModule,
 		ReviewModule,
 		PrismaModule,
+		FilesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
