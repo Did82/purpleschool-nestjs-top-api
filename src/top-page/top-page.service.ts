@@ -19,6 +19,15 @@ export class TopPageService {
 		});
 	}
 
+	async findAll() {
+		return await this.prisma.topPage.findMany({
+			include: {
+				hh: true,
+				advantages: true,
+			},
+		});
+	}
+
 	async findById(id: string) {
 		return await this.prisma.topPage.findFirst({
 			where: { id },

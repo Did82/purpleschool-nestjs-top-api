@@ -8,6 +8,7 @@ import { ReviewModule } from './review/review.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { FilesModule } from './files/files.module';
+import { SitemapModule } from './sitemap/sitemap.module';
 
 @Module({
 	imports: [
@@ -20,6 +21,7 @@ import { FilesModule } from './files/files.module';
 		ReviewModule,
 		PrismaModule,
 		FilesModule,
+		SitemapModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
