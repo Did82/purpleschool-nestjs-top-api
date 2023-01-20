@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { FilesModule } from './files/files.module';
 import { SitemapModule } from './sitemap/sitemap.module';
+import { TelegramModule } from './telegram/telegram.module';
 
 @Module({
 	imports: [
@@ -22,6 +23,7 @@ import { SitemapModule } from './sitemap/sitemap.module';
 		PrismaModule,
 		FilesModule,
 		SitemapModule,
+		TelegramModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
