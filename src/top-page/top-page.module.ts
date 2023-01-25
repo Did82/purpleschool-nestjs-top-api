@@ -7,5 +7,6 @@ import { TopPageService } from './top-page.service';
 	imports: [HhModule],
 	controllers: [TopPageController],
 	providers: [TopPageService],
+	exports: [TopPageService],
 })
 export class TopPageModule {}

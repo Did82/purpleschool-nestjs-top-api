@@ -11,7 +11,7 @@ import {
 	UseGuards,
 } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { HhService } from 'src/hh/hh.service';
+import { HhService } from '../hh/hh.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { IdValidation } from '../validation/id-validation';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
