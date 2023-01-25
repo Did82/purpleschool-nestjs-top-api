@@ -39,6 +39,7 @@ jobs:
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
             JWT_SECRET: 'test'
             TELEGRAM_TOKEN: 'token'
+            TELEGRAM_CHAT_ID: 'id'
             DOMAIN: 'localhost:3000'
         steps:
             - uses: actions/checkout@v3
