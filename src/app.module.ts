@@ -10,12 +10,15 @@ import { PrismaModule } from './prisma/prisma.module';
 import { FilesModule } from './files/files.module';
 import { SitemapModule } from './sitemap/sitemap.module';
 import { TelegramModule } from './telegram/telegram.module';
+import { HhModule } from './hh/hh.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
+		ScheduleModule.forRoot(),
 		AuthModule,
 		TopPageModule,
 		ProductModule,
@@ -24,6 +27,7 @@ import { TelegramModule } from './telegram/telegram.module';
 		FilesModule,
 		SitemapModule,
 		TelegramModule,
+		HhModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

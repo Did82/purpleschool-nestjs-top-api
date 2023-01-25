@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { TopLevelCategory } from '@prisma/client';
+import { Prisma, TopLevelCategory, TopPage } from '@prisma/client';
+import { addDays } from 'date-fns';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
 
@@ -83,7 +84,7 @@ export class TopPageService {
 		return result;
 	}
 
-	async update(id: string, dto: CreateTopPageDto) {
+	async update(id: string, dto: Prisma.TopPageUpdateInput) {
 		return await this.prisma.topPage.update({
 			where: { id },
 			data: {
@@ -99,6 +100,35 @@ export class TopPageService {
 	async delete(id: string) {
 		return await this.prisma.topPage.delete({
 			where: { id },
+		});
+	}
+
+	async findForHhUpdate(date: Date) {
+		return await this.prisma.topPage.findMany({
+			where: {
+				firstCategory: TopLevelCategory.Courses,
+				OR: [
+					{
+						hh: {
+							is: {
+								updatedAt: {
+									lt: addDays(date, -1).toISOString(),
+								},
+							},
+						},
+					},
+					{
+						hh: {
+							is: {
+								updatedAt: undefined,
+							},
+						},
+					},
+				],
+			},
+			include: {
+				hh: true,
+			},
 		});
 	}
 }
